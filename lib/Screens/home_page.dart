@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:samlel/components/appoinment_card.dart';
 import 'package:samlel/utils/config.dart';
 
 class HomePage extends StatefulWidget {
@@ -110,7 +111,21 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
               ),
-            )
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Appointment Today",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            AppoinmentCard(),
           ],
         )),
       ),

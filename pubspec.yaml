@@ -59,6 +59,11 @@ flutter:
   assets:
 
     - assets/Images/Whatsaap.png
+    - assets/Images/doctor_1.jfif
+    - assets/Images/facebook.png
+    - assets/Images/google.png
+    - assets/Images/profile.jfif
+    - assets/Images/doctor_2.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

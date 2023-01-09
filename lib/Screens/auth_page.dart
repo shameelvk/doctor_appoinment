@@ -73,8 +73,8 @@ class _AuthPageState extends State<AuthPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                SocialButton(social: 'Whatsaap'),
-                SocialButton(social: 'Whatsaap'),
+                SocialButton(social: 'google'),
+                SocialButton(social: 'facebook'),
               ],
             ),
             const SizedBox(

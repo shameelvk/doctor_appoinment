@@ -26,7 +26,7 @@ class _DoctorCardState extends State<DoctorCard> {
             children: [
               SizedBox(
                 width: Config.widthSize * 0.33,
-                child: Image.asset("assets/Images/Whatsaap.png"),
+                child: Image.asset("assets/Images/doctor_2.png"),
               ),
               Flexible(
                   child: Padding(
@@ -36,7 +36,7 @@ class _DoctorCardState extends State<DoctorCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "shameel",
+                      " Dr shameel",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),

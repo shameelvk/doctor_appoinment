@@ -28,7 +28,7 @@ class _AppoinmentCardState extends State<AppoinmentCard> {
               Row(
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/Images/Whatsaap.png'),
+                    backgroundImage: AssetImage('assets/Images/profile.jfif'),
                   ),
                   SizedBox(
                     width: 10,

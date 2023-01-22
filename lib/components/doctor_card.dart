@@ -5,14 +5,10 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:samlel/utils/config.dart';
 
-class DoctorCard extends StatefulWidget {
-  const DoctorCard({super.key});
+class DoctorCard extends StatelessWidget {
+  DoctorCard({super.key, required this.route});
+  final String route;
 
-  @override
-  State<DoctorCard> createState() => _DoctorCardState();
-}
-
-class _DoctorCardState extends State<DoctorCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,7 +73,9 @@ class _DoctorCardState extends State<DoctorCard> {
             ],
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).pushNamed(route);
+        },
       ),
     );
   }

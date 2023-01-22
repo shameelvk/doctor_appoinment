@@ -143,7 +143,9 @@ class _HomePageState extends State<HomePage> {
               ),
               Column(
                 children: List.generate(10, (index) {
-                  return DoctorCard();
+                  return DoctorCard(
+                    route: 'doc_details',
+                  );
                 }),
               )
             ],

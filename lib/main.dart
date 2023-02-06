@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:samlel/Screens/auth_page.dart';
+import 'package:samlel/Screens/booking_page.dart';
 import 'package:samlel/Screens/doctor_details.dart';
 import 'package:samlel/main_layout.dart';
 import 'package:samlel/utils/config.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const AuthPage(),
         'main': (context) => const MainLayout(),
         'doc_details': (context) => const DoctorDetails(),
+        'booking_page': (context) => const BookingPage(),
       },
     );
   }

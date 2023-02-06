@@ -137,7 +137,7 @@ class DetailBody extends StatelessWidget {
           SizedBox(height: 18),
           DoctorInfo(),
           SizedBox(
-            height: 30,
+            height: 25,
           ),
           Text(
             "Abou Doctor",
@@ -147,7 +147,7 @@ class DetailBody extends StatelessWidget {
             height: 18,
           ),
           Text(
-            "Dr ,shameel is a experinced dentit at kerala He is graduated since 2016,and completed his training at mims hospital djdjdjsd",
+            "Dr,Shameel is a experinced dentit at kerala He is graduated since 2016,and completed his training at mims hospital",
             style: TextStyle(
               fontWeight: FontWeight.w500,
               height: 1.5,

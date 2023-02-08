@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:samlel/components/Social_Button.dart';
 import 'package:samlel/components/login_form.dart';
+import 'package:samlel/components/signup_form.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -12,6 +13,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  bool isSignIN = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,9 @@ class _AuthPageState extends State<AuthPage> {
               height: 15,
             ),
             Text(
-              "Sign in to your account",
+              isSignIN
+                  ? "Sign in to your account"
+                  : 'You can easily sign up,and connect to the Doctors nearby you',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -42,21 +46,23 @@ class _AuthPageState extends State<AuthPage> {
             SizedBox(
               height: 15,
             ),
-            LoginForm(),
+            isSignIN ? LoginForm() : SignUpForm(),
             SizedBox(
               height: 15,
             ),
-            Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Forgot Your Password?",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  )),
-            ),
+            isSignIN
+                ? Center(
+                    child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Forgot Your Password?",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        )),
+                  )
+                : Container(),
             const Spacer(),
             Center(
               child: Text(
@@ -84,7 +90,9 @@ class _AuthPageState extends State<AuthPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Don't have an account?",
+                  isSignIN
+                      ? "Don't have an account?"
+                      : 'Already have an account?',
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -93,12 +101,19 @@ class _AuthPageState extends State<AuthPage> {
                 const SizedBox(
                   width: 12,
                 ),
-                const Text(
-                  "Sign Up",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isSignIN = !isSignIN;
+                    });
+                  },
+                  child: Text(
+                    isSignIN ? "Sign Up" : "Sign In",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
                 ),
               ],
             )

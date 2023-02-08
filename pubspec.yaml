@@ -34,7 +34,7 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.3.0
-  # lottie: ^2.1.0
+  lottie: ^2.1.0
   # provider: ^6.0.5
   # rating_dialog: ^2.0.4
   # shared_preferences: ^2.0.15
@@ -64,6 +64,7 @@ flutter:
     - assets/Images/google.png
     - assets/Images/profile.jfif
     - assets/Images/doctor_2.png
+    - assets/Images/successful.json
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

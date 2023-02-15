@@ -21,7 +21,7 @@ class DoctorCard extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
-                width: Config.widthSize * 0.33,
+                width: 120,
                 child: Image.asset("assets/Images/doctor_2.png"),
               ),
               Flexible(
@@ -44,7 +44,7 @@ class DoctorCard extends StatelessWidget {
                     Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Icon(
                           Icons.star_border,
                           color: Colors.yellow,

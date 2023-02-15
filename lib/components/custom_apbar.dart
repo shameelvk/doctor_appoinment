@@ -39,8 +39,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ? Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.greenAccent),
+                borderRadius: BorderRadius.circular(10),
+                // color: Colors.greenAccent
+              ),
               child: IconButton(
                 onPressed: () {
                   if (widget.route != null) {
@@ -50,8 +51,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   }
                 },
                 icon: widget.icone!,
-                iconSize: 16,
-                color: Colors.white,
+                iconSize: 20,
+                color: Colors.black,
               ),
             )
           : null,

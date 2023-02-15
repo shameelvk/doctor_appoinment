@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:samlel/components/Social_Button.dart';
 import 'package:samlel/components/login_form.dart';
 import 'package:samlel/components/signup_form.dart';
@@ -24,12 +25,34 @@ class _AuthPageState extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Welcome",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Welcome",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Spacer(),
+                isSignIN
+                    ? Container()
+                    : TextButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('doctorsignup');
+                        },
+                        icon: const FaIcon(
+                          FontAwesomeIcons.userDoctor,
+                          color: Colors.black,
+                        ),
+                        label: const Text(
+                          'Register',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )
+              ],
             ),
             SizedBox(
               height: 15,
@@ -64,24 +87,8 @@ class _AuthPageState extends State<AuthPage> {
                   )
                 : Container(),
             const Spacer(),
-            Center(
-              child: Text(
-                "Or continue with social account",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey.shade500),
-              ),
-            ),
             SizedBox(
               height: 18,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                SocialButton(social: 'google'),
-                SocialButton(social: 'facebook'),
-              ],
             ),
             const SizedBox(
               height: 18,

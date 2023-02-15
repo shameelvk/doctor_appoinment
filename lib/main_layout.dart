@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:samlel/Screens/appoinment_page.dart';
 import 'package:samlel/Screens/home_page.dart';
+import 'package:samlel/Screens/patient/doctor_list.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -25,8 +26,9 @@ class _MainLayoutState extends State<MainLayout> {
             currentPage = value;
           });
         }),
-        children: [
+        children: const [
           HomePage(),
+          DoctorList(),
           AppoinmentPage(),
         ],
       ),
@@ -44,6 +46,8 @@ class _MainLayoutState extends State<MainLayout> {
             BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.houseChimneyMedical),
                 label: "Home"),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.search), label: "Search"),
             BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.solidCalendarCheck),
                 label: "Appoinment"),

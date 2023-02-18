@@ -322,7 +322,9 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
     AlertDialog alert = AlertDialog(
       content: Row(
         children: [
-          const CircularProgressIndicator(),
+          const CircularProgressIndicator(
+            color: Colors.greenAccent,
+          ),
           Container(
               margin: const EdgeInsets.only(left: 15),
               child: const Text("Loading...")),

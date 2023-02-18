@@ -1,7 +1,7 @@
 // import 'dart:ui';
 
 // import 'package:flutter/material.dart';
-// import 'package:samlel/utils/config.dart';
+// import 'package:DocTime/utils/config.dart';
 
 // class SocialButton extends StatelessWidget {
 //   const SocialButton({super.key, required this.social});

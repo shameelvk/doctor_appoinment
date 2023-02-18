@@ -2,9 +2,9 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:samlel/components/appoinment_card.dart';
-import 'package:samlel/components/doctor_card.dart';
-import 'package:samlel/utils/config.dart';
+import 'package:DocTime/components/appoinment_card.dart';
+import 'package:DocTime/components/doctor_card.dart';
+import 'package:DocTime/utils/config.dart';
 import 'package:intl/intl.dart';
 
 import '../firestore_data/notification_list.dart';

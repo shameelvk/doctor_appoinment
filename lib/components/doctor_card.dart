@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:samlel/utils/config.dart';
+import 'package:DocTime/utils/config.dart';
 
 class DoctorCard extends StatelessWidget {
   DoctorCard({super.key, required this.route});

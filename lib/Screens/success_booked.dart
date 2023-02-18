@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:lottie/lottie.dart';
-import 'package:samlel/components/button.dart';
+import 'package:DocTime/components/button.dart';
 
 class AppoinmentBooked extends StatelessWidget {
   const AppoinmentBooked({super.key});

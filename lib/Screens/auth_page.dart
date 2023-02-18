@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:samlel/components/Social_Button.dart';
-import 'package:samlel/components/login_form.dart';
-import 'package:samlel/components/signup_form.dart';
+import 'package:DocTime/components/Social_Button.dart';
+import 'package:DocTime/components/login_form.dart';
+import 'package:DocTime/components/signup_form.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

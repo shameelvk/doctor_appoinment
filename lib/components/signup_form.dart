@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:samlel/components/button.dart';
+import 'package:DocTime/components/button.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});

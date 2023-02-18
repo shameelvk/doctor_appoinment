@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:samlel/components/button.dart';
-import 'package:samlel/components/custom_apbar.dart';
-import 'package:samlel/utils/config.dart';
+import 'package:DocTime/components/button.dart';
+import 'package:DocTime/components/custom_apbar.dart';
+import 'package:DocTime/utils/config.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class BookingPage extends StatefulWidget {

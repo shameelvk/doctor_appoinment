@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.samlel">
+    package="com.example.DocTime">
    <application
-        android:label="samlel"
+        android:label="DocTime"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

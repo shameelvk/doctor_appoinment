@@ -1,19 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:samlel/Screens/auth_page.dart';
-import 'package:samlel/Screens/booking_page.dart';
-import 'package:samlel/Screens/doctor_details.dart';
-import 'package:samlel/Screens/doctor_register.dart';
-import 'package:samlel/Screens/success_booked.dart';
-import 'package:samlel/main_layout.dart';
-import 'package:samlel/utils/config.dart';
+import 'package:DocTime/Screens/auth_page.dart';
+import 'package:DocTime/Screens/booking_page.dart';
+import 'package:DocTime/Screens/doctor_details.dart';
+import 'package:DocTime/Screens/doctor_register.dart';
+import 'package:DocTime/Screens/success_booked.dart';
+import 'package:DocTime/firebase_options.dart';
+import 'package:DocTime/main_layout.dart';
+import 'package:DocTime/utils/config.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Firebase for all platforms(android, ios, web)
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({key});
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -41,7 +48,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.white,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: Colors.greenAccent,
+            backgroundColor: Color.fromRGBO(105, 240, 174, 1),
             selectedItemColor: Colors.white,
             showSelectedLabels: true,
             showUnselectedLabels: false,

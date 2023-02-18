@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:samlel/components/appoinment_card.dart';
+import 'package:DocTime/components/appoinment_card.dart';
 
 class AppoinmentPage extends StatefulWidget {
   const AppoinmentPage({super.key});

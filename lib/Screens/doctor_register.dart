@@ -297,7 +297,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   showLoaderDialog(context);
-                  _registerAccount();
+                  _registerAccount(context);
                 }
                 // Navigator.of(context).pushNamed("main");
               },
@@ -341,7 +341,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
   }
 
   //register doctor
-  void _registerAccount() async {
+  void _registerAccount(context) async {
     User? user;
     UserCredential? credential;
 

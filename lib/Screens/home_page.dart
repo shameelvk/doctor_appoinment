@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:DocTime/components/appoinment_card.dart';
@@ -17,6 +18,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? user;
+  Future<void> _getUser() async {
+    user = _auth.currentUser;
+  }
+
+  Future _signOut() async {
+    await _auth.signOut();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
   List<Map<String, dynamic>> medcat = [
     {
       "icone": FontAwesomeIcons.userDoctor,
@@ -116,11 +133,18 @@ class _HomePageState extends State<HomePage> {
               Container(
                 // alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "Hello Shameel",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+                child: TextButton(
+                  onPressed: () {
+                    _signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false);
+                  },
+                  child: Text(
+                    "Hello Shameel",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

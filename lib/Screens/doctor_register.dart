@@ -8,6 +8,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:DocTime/components/button.dart';
 import 'package:lottie/lottie.dart';
 
+import '../utils/globals.dart' as globals;
+
 class DoctorSignUp extends StatefulWidget {
   const DoctorSignUp({super.key});
 
@@ -61,12 +63,12 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 _signUp(context),
                 const Spacer(),
-                SizedBox(
+                const SizedBox(
                   height: 18,
                 ),
                 const SizedBox(
@@ -402,6 +404,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
           'specification': null,
           'specialization': 'general',
         });
+        globals.isDoctor = true;
       }
 
       // sep

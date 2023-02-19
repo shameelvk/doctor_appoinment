@@ -1,3 +1,7 @@
+import 'package:DocTime/Screens/doctor/mainlayot_doc.dart';
+import 'package:DocTime/Screens/doctor_or_patient.dart';
+import 'package:DocTime/Screens/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,23 +14,40 @@ import 'package:DocTime/firebase_options.dart';
 import 'package:DocTime/main_layout.dart';
 import 'package:DocTime/utils/config.dart';
 
+import 'utils/globals.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize Firebase for all platforms(android, ios, web)
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  User? user;
+
+  Future<void> _getUser() async {
+    user = _auth.currentUser;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _getUser();
+
     return MaterialApp(
-      navigatorKey: navigatorKey,
+      navigatorKey: MyApp.navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         inputDecorationTheme: const InputDecorationTheme(
@@ -48,7 +69,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.white,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: Color.fromRGBO(105, 240, 174, 1),
+            backgroundColor: Colors.greenAccent,
             selectedItemColor: Colors.white,
             showSelectedLabels: true,
             showUnselectedLabels: false,
@@ -58,8 +79,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const AuthPage(),
-        'main': (context) => const MainLayout(),
+        '/': (context) =>
+            user == null ? const AuthPage() : const DoctorOrPatient(),
+        'main': (context) =>
+            isDoctor ? const MainPageDoctor() : const MainLayout(),
         'doc_details': (context) => const DoctorDetails(),
         'booking_page': (context) => const BookingPage(),
         'success_boking': (context) => const AppoinmentBooked(),

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:DocTime/components/button.dart';
+import 'package:lottie/lottie.dart';
+
+import '../utils/globals.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -21,7 +24,6 @@ class _LoginFormState extends State<LoginForm> {
 
   FocusNode f1 = FocusNode();
   FocusNode f2 = FocusNode();
-  FocusNode f3 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               cursorColor: Colors.greenAccent,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Email Address",
                 labelText: "Email",
                 alignLabelWithHint: true,
@@ -90,7 +92,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
               onFieldSubmitted: (value) {
                 f2.unfocus();
-                FocusScope.of(context).requestFocus(f3);
               },
               textInputAction: TextInputAction.done,
               validator: (value) {
@@ -179,7 +180,7 @@ class _LoginFormState extends State<LoginForm> {
           .get();
       var basicInfo = snap.data() as Map<String, dynamic>;
 
-      // isDoctor = basicInfo['type'] == 'doctor' ? true : false;
+      isDoctor = basicInfo['type'] == 'doctor' ? true : false;
 
       // // save data to local storage
       // SharedPreferenceHelper().saveUserId(user.uid);
@@ -191,20 +192,65 @@ class _LoginFormState extends State<LoginForm> {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('main', (Route<dynamic> route) => false);
     } catch (e) {
-      print(e);
-      final snackBar = SnackBar(
-        content: Row(
-          children: const [
-            Icon(
-              Icons.info_outline,
-              color: Colors.white,
-            ),
-            Text(" There was a problem signing you in"),
-          ],
-        ),
-      );
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      showAlertDialog(context);
     }
+  }
+
+  showAlertDialog(BuildContext context) {
+    Navigator.pop(context);
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text(
+        "OK",
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+        FocusScope.of(context).requestFocus(f2);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // title: const Text(
+      //   "Error!",
+      //   style: TextStyle(
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      // ),
+      content: Container(
+        width: 120,
+        height: 120,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Lottie.asset(
+                  'assets/Images/errdoctor.json',
+                  // width: 150,
+                  // height: 150,
+                ),
+              ),
+              const Text(
+                "User not found",
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

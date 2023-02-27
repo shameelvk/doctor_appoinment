@@ -30,7 +30,7 @@ class _DoctorOrPatientState extends State<DoctorOrPatient> {
         _isLoading = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 

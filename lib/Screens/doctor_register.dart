@@ -382,6 +382,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
         'type': accountType,
         'name': name,
         'birthDate': null,
+        'experince': null,
         'email': user.email,
         'phone': null,
         'bio': null,

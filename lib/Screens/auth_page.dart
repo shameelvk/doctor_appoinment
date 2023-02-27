@@ -63,16 +63,16 @@ class _AuthPageState extends State<AuthPage> {
                   isSignIN
                       ? "Sign in to your account"
                       : 'You can easily sign up,and connect to the Doctors nearby you',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 isSignIN ? LoginForm() : SignUpForm(),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 isSignIN
@@ -125,7 +125,7 @@ class _AuthPageState extends State<AuthPage> {
                       },
                       child: Text(
                         isSignIN ? "Sign Up" : "Sign In",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),

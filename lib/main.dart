@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
             user == null ? const AuthPage() : const DoctorOrPatient(),
         'main': (context) =>
             isDoctor ? const MainPageDoctor() : const MainLayout(),
-        'doc_details': (context) => const DoctorDetails(),
+        'doc_details': (context) => DoctorDetails(),
         'booking_page': (context) => const BookingPage(),
         'success_boking': (context) => const AppoinmentBooked(),
         'doctorsignup': (context) => const DoctorSignUp(),

@@ -1,4 +1,5 @@
 import 'package:DocTime/Screens/booking_page.dart';
+import 'package:DocTime/Screens/booking_screen.dart';
 import 'package:DocTime/components/button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           // doctor specialization
                           Text(
                             document['specialization'],
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                                 color: Colors.black54),
@@ -123,7 +124,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             child: Text(
                               document['specification'] ?? '-',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black54,
                               ),
@@ -134,12 +135,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           ),
 
                           // address
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(
                                   width: 15,
@@ -166,9 +164,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           ),
 
                           // phone number
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height / 12,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -185,7 +182,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                   },
                                   child: Text(
                                     document['phone'] ?? '-',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16, color: Colors.blueAccent),
                                   ),
                                 ),
@@ -197,36 +194,33 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           ),
 
                           // working hour
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Icon(Icons.access_time_rounded),
-                                SizedBox(width: 20),
-                                Column(
-                                  children: [
-                                    Text(
-                                      'Working Hours',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Icon(Icons.access_time_rounded),
+                              SizedBox(width: 20),
+                              Column(
+                                children: [
+                                  Text(
+                                    'Working Hours',
+                                    style: TextStyle(
+                                      fontSize: 16,
                                     ),
-                                    Text(
-                                      document['openHour'] +
-                                          " - " +
-                                          document['closeHour'],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 17,
-                                      ),
+                                  ),
+                                  Text(
+                                    document['openHour'] +
+                                        " - " +
+                                        document['closeHour'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 17,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 40,
@@ -269,7 +263,15 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               title: 'Book Appoinment',
                               disable: false,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('booking_page');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookingScreen(
+                                      doctorUid: document['id'],
+                                      doctor: document['name'],
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),

@@ -1,3 +1,4 @@
+import 'package:DocTime/Screens/appointments.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _MainLayoutState extends State<MainLayout> {
         children: const [
           HomePage(),
           DoctorList(),
-          AppoinmentPage(),
+          Appointments(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

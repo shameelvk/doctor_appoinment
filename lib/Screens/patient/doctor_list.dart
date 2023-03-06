@@ -1,3 +1,4 @@
+import 'package:DocTime/firestore_data/search_list.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,15 @@ class DoctorList extends StatefulWidget {
 class _DoctorListState extends State<DoctorList> {
   final TextEditingController _textController = TextEditingController();
   late String search;
-  var _length = 0;
+  late var _length = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    search = _textController.text;
+    _length = search.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +34,7 @@ class _DoctorListState extends State<DoctorList> {
               padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
               width: MediaQuery.of(context).size.width,
               child: TextFormField(
-                textCapitalization: TextCapitalization.words,
+                textCapitalization: TextCapitalization.none,
                 controller: _textController,
                 decoration: InputDecoration(
                   contentPadding:
@@ -93,37 +102,36 @@ class _DoctorListState extends State<DoctorList> {
         ],
       ),
       body: Container(
-          padding: const EdgeInsets.all(10),
-          child:
-              // _length == 0
-              //     ?
-              Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _length = 1;
-                    });
-                  },
-                  child: const Text(
-                    'Show All',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.all(10),
+        child: _length == 0
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          print(_length);
+                          _length = 1;
+                        });
+                      },
+                      child: const Text(
+                        'Show All',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                    // const Image(image: AssetImage('assets/search-bg.png')),
+                  ],
                 ),
-                // const Image(image: AssetImage('assets/search-bg.png')),
-              ],
-            ),
-          )
-          // : SearchList(
-          //     searchKey: search,
-          //   ),
-          ),
+              )
+            : SearchList(
+                searchKey: search,
+              ),
+      ),
     );
   }
 }

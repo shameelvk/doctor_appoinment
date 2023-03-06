@@ -6,7 +6,10 @@ import '../Screens/patient/doctor_profie.dart';
 class SearchList extends StatefulWidget {
   final String searchKey;
 
-  const SearchList({Key? key, required this.searchKey}) : super(key: key);
+  const SearchList({
+    Key? key,
+    required this.searchKey,
+  }) : super(key: key);
 
   @override
   State<SearchList> createState() => _SearchListState();
@@ -16,18 +19,18 @@ class _SearchListState extends State<SearchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Doctors",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 2,
-        foregroundColor: Colors.black,
+      // appBar: AppBar(
+      //   title: const Text(
+      //     "Doctors",
+      //     textAlign: TextAlign.center,
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   elevation: 2,
+      //   foregroundColor: Colors.black,
 
-        // foregroundColor: Colors.white,
-      ),
+      //   // foregroundColor: Colors.white,
+      // ),
       body: SafeArea(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance

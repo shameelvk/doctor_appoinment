@@ -170,7 +170,7 @@ class _AppointmentListState extends State<AppointmentList> {
                           }
                         },
                         child: ExpansionTile(
-                          initiallyExpanded: true,
+                          initiallyExpanded: false,
 
                           // main info of appointment
                           title: Row(

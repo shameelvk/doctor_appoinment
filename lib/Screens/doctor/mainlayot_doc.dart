@@ -1,5 +1,7 @@
+import 'package:DocTime/Screens/appointments.dart';
 import 'package:DocTime/Screens/doctor/doc_profile.dart';
 import 'package:DocTime/Screens/doctor/homepg_doctor.dart';
+import 'package:DocTime/Screens/patient/patent_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -26,9 +28,8 @@ class _MainPageDoctorState extends State<MainPageDoctor> {
           });
         }),
         children: const [
-          HomePageDoctor(),
-          DoctorProfile()
-          // AppoinmentPage(),
+          Appointments(),
+          ProfileHome(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

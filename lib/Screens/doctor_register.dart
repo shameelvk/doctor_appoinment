@@ -39,9 +39,9 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: SafeArea(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,7 +358,6 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
           0) {
         showAlertDialog(context);
       }
-      print(error.toString());
     }
     user = credential!.user;
 
@@ -386,7 +385,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
         'email': user.email,
         'phone': null,
         'bio': null,
-        'address': null,
+        'Hospital': null,
         'profilePhoto': null,
         'openHour': "09:00",
         'closeHour': "21:00",

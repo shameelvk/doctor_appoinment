@@ -15,15 +15,11 @@ class _AppointmentsState extends State<Appointments> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: const Text(
-            'My Appointments',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+        title: const Text(
+          'My Appointments',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.black),

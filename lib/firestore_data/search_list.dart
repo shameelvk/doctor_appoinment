@@ -140,7 +140,7 @@ class _SearchListState extends State<SearchList> {
                                               MainAxisAlignment.end,
                                           children: [
                                             const Icon(
-                                              Icons.abc_outlined,
+                                              Icons.star,
                                               size: 20,
                                               color: Colors.black,
                                             ),

@@ -3,6 +3,7 @@ import 'package:DocTime/Screens/booking_screen.dart';
 import 'package:DocTime/components/button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // import 'package:url_launcher/url_launcher.dart';
 
@@ -16,10 +17,10 @@ class DoctorProfile extends StatefulWidget {
 
 class _DoctorProfileState extends State<DoctorProfile> {
   // // for making phone call
-  // _launchCaller(String phoneNumber) async {
-  //   String url = "tel:$phoneNumber";
-  //   launch(url);
-  // }
+  _launchCaller(String phoneNumber) async {
+    String url = "tel:$phoneNumber";
+    launch(url);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,12 +179,12 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    // _launchCaller("${document['phone']}"),
+                                    _launchCaller("${document['phone']}");
                                   },
                                   child: Text(
                                     document['phone'] ?? '-',
                                     style: const TextStyle(
-                                        fontSize: 16, color: Colors.blueAccent),
+                                        fontSize: 16, color: Colors.black),
                                   ),
                                 ),
                               ],

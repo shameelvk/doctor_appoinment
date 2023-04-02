@@ -1,5 +1,8 @@
 import 'dart:ffi';
 
+import 'package:DocTime/Screens/appoinment_page.dart';
+import 'package:DocTime/Screens/category_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,13 +25,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController _doctorName = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? user;
+  late User user;
   Future<void> _getUser() async {
-    user = _auth.currentUser;
-  }
-
-  Future _signOut() async {
-    await _auth.signOut();
+    user = _auth.currentUser!;
+    DocumentSnapshot snap = await FirebaseFirestore.instance
+        .collection('patient')
+        .doc(user.uid)
+        .get();
+    setState(() {
+      var snapshot = snap.data() as Map<String, dynamic>;
+    });
+    print(snap.data());
   }
 
   @override
@@ -143,25 +150,18 @@ class _HomePageState extends State<HomePage> {
                 // alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  "Hello ${user?.displayName}",
-                  style: TextStyle(
+                  "Hello ${user.displayName}",
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/', (Route<dynamic> route) => false);
-                  _signOut();
-                },
-                child: const Text(
-                  "Let's Find Your\nDoctor",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const Text(
+                "Let's Find Your\nDoctor",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               // Row(
@@ -250,51 +250,64 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: List<Widget>.generate(medcat.length, (index) {
-                    return Card(
-                      margin: const EdgeInsets.only(right: 20),
-                      color: Colors.greenAccent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            FaIcon(
-                              medcat[index]["icone"],
-                              color: Colors.white,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              medcat[index]["category"],
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExploreList(
+                                    type: medcat[index]["category"],
+                                  )),
+                        );
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(right: 20),
+                        color: Colors.greenAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              FaIcon(
+                                medcat[index]["icone"],
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                medcat[index]["category"],
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   }),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Text(
+              const Text(
                 "Appointment Today",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              AppoinmentCard(),
-              SizedBox(
+
+              // AppointmentList(),
+              const AppointmentCard(),
+              const SizedBox(
                 height: 15,
               ),
               Text(

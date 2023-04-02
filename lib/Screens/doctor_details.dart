@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,7 +8,8 @@ import 'package:DocTime/components/custom_apbar.dart';
 import 'package:DocTime/utils/config.dart';
 
 class DoctorDetails extends StatefulWidget {
-  const DoctorDetails({super.key});
+  String? doctor = "P";
+  DoctorDetails({Key? key, this.doctor}) : super(key: key);
 
   @override
   State<DoctorDetails> createState() => _DoctorDetailsState();
@@ -37,24 +39,32 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         ],
       ),
       body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          AboutDoctor(),
-          DetailBody(),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Button(
-              width: double.infinity,
-              title: 'Book Appoinment',
-              disable: false,
-              onPressed: () {
-                Navigator.of(context).pushNamed('booking_page');
-              },
-            ),
-          )
-        ],
-      )),
+          child: StreamBuilder<Object>(
+              stream: FirebaseFirestore.instance
+                  .collection('doctor')
+                  .orderBy('name')
+                  .startAt([widget.doctor]).endAt(
+                      ['${widget.doctor!}\uf8ff']).snapshots(),
+              builder: (context, snapshot) {
+                return Column(
+                  children: <Widget>[
+                    AboutDoctor(),
+                    DetailBody(),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Button(
+                        width: double.infinity,
+                        title: 'Book Appoinment',
+                        disable: false,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('booking_page');
+                        },
+                      ),
+                    )
+                  ],
+                );
+              })),
     );
   }
 }

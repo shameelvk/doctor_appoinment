@@ -1,5 +1,8 @@
 import 'dart:ffi';
 
+import 'package:DocTime/Screens/appoinment_page.dart';
+import 'package:DocTime/Screens/category_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +12,8 @@ import 'package:DocTime/utils/config.dart';
 import 'package:intl/intl.dart';
 
 import '../firestore_data/notification_list.dart';
+import '../firestore_data/search_list.dart';
+import '../firestore_data/top_rated_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,14 +23,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController _doctorName = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? user;
+  late User user;
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
+    DocumentSnapshot snap = await FirebaseFirestore.instance
+        .collection('patient')
+        .doc(user.uid)
+        .get();
+    setState(() {
+      var snapshot = snap.data() as Map<String, dynamic>;
+    });
+    print(snap.data());
   }
 
-  Future _signOut() async {
-    await _auth.signOut();
+  @override
+  void dispose() {
+    _doctorName.dispose();
+    super.dispose();
   }
 
   @override
@@ -95,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.center,
                 child: Text(
                   message,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black54,
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
@@ -133,22 +149,15 @@ class _HomePageState extends State<HomePage> {
               Container(
                 // alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(bottom: 10),
-                child: TextButton(
-                  onPressed: () {
-                    _signOut();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/', (Route<dynamic> route) => false);
-                  },
-                  child: Text(
-                    "Hello Shameel",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
+                child: Text(
+                  "Hello ${user.displayName}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              Text(
+              const Text(
                 "Let's Find Your\nDoctor",
                 style: TextStyle(
                   fontSize: 28,
@@ -179,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                 child: TextFormField(
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.search,
-                  // controller: _doctorName,
+                  controller: _doctorName,
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.only(left: 20, top: 10, bottom: 10),
@@ -190,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                     filled: true,
                     // fillColor: Colors.grey[200],
                     hintText: 'Search doctor',
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       color: Colors.black26,
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
@@ -205,19 +214,30 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
                   onFieldSubmitted: (String value) {
                     setState(
-                      () {},
+                      () {
+                        value.isEmpty
+                            ? Container()
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SearchList(
+                                    searchKey: value,
+                                  ),
+                                ),
+                              );
+                      },
                     );
                   },
                 ),
               ),
               const SizedBox(height: 25),
-              Text(
+              const Text(
                 "Category",
                 style: TextStyle(
                   fontSize: 16,
@@ -230,51 +250,64 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: List<Widget>.generate(medcat.length, (index) {
-                    return Card(
-                      margin: const EdgeInsets.only(right: 20),
-                      color: Colors.greenAccent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            FaIcon(
-                              medcat[index]["icone"],
-                              color: Colors.white,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              medcat[index]["category"],
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExploreList(
+                                    type: medcat[index]["category"],
+                                  )),
+                        );
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(right: 20),
+                        color: Colors.greenAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              FaIcon(
+                                medcat[index]["icone"],
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                medcat[index]["category"],
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   }),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Text(
+              const Text(
                 "Appointment Today",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              AppoinmentCard(),
-              SizedBox(
+
+              // AppointmentList(),
+              const AppointmentCard(),
+              const SizedBox(
                 height: 15,
               ),
               Text(
@@ -287,13 +320,14 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 15,
               ),
-              Column(
-                children: List.generate(10, (index) {
-                  return DoctorCard(
-                    route: 'doc_details',
-                  );
-                }),
-              )
+              // Column(
+              //   children: List.generate(10, (index) {
+              //     return DoctorCard(
+              //       route: 'doc_details',
+              //     );
+              //   }),
+              //)
+              const TopRatedList(),
             ],
           ),
         )),

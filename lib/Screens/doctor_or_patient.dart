@@ -1,5 +1,6 @@
 import 'package:DocTime/Screens/doctor/mainlayot_doc.dart';
 import 'package:DocTime/Screens/home_page.dart';
+import 'package:DocTime/main_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _DoctorOrPatientState extends State<DoctorOrPatient> {
         _isLoading = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
@@ -50,6 +51,6 @@ class _DoctorOrPatientState extends State<DoctorOrPatient> {
           )))
         : isDoctor
             ? const MainPageDoctor()
-            : const HomePage();
+            : const MainLayout();
   }
 }

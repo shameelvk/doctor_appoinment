@@ -40,7 +40,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
             },
             icon: Icon(Icons.exit_to_app)),
       ),
-      body: SafeArea(
+      body: const SafeArea(
           child: Center(
         child: Text("Profile"),
       )),

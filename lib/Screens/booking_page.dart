@@ -20,7 +20,7 @@ class _BookingPageState extends State<BookingPage> {
   DateTime _currentDay = DateTime.now();
   int? _currentIndex;
   bool _isWeekend = false;
-  bool _dataSelected = false;
+  bool _dataSelected = true;
   bool _timeSelected = false;
 
   @override

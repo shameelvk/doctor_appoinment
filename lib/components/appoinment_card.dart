@@ -1,143 +1,269 @@
-import 'package:flutter/cupertino.dart';
+import 'package:DocTime/components/appoinment_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class AppoinmentCard extends StatefulWidget {
-  const AppoinmentCard({super.key});
+import 'package:intl/intl.dart';
+
+import '../utils/globals.dart';
+
+class AppointmentCard extends StatefulWidget {
+  const AppointmentCard({Key? key}) : super(key: key);
 
   @override
-  State<AppoinmentCard> createState() => _AppoinmentCardState();
+  State<AppointmentCard> createState() => _AppointmentCardState();
 }
 
-class _AppoinmentCardState extends State<AppoinmentCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.greenAccent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/Images/doctor_1.jfif'),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Dr Shameel",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        "Dental",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              ScheduleCard(),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
-                          onPressed: () {},
-                          child: const Text(
-                            "Cancel",
-                            style: TextStyle(color: Colors.white),
-                          ))),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue),
-                          onPressed: () {},
-                          child: const Text(
-                            "Completed",
-                            style: TextStyle(color: Colors.white),
-                          )))
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+class _AppointmentCardState extends State<AppointmentCard> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late User user;
+  late String _documentID;
+
+  Future<void> _getUser() async {
+    user = _auth.currentUser!;
+  }
+
+  // delete appointment from both patient and doctor
+  Future<void> deleteAppointment(
+      String docID, String doctorId, String patientId) async {
+    FirebaseFirestore.instance
+        .collection('appointments')
+        .doc(doctorId)
+        .collection('pending')
+        .doc(docID)
+        .delete();
+    return FirebaseFirestore.instance
+        .collection('appointments')
+        .doc(patientId)
+        .collection('pending')
+        .doc(docID)
+        .delete();
+  }
+
+  String _dateFormatter(String timestamp) {
+    String formattedDate =
+        DateFormat('dd-MM-yyyy').format(DateTime.parse(timestamp));
+    return formattedDate;
+  }
+
+  String _timeFormatter(String timestamp) {
+    String formattedTime =
+        DateFormat('kk:mm').format(DateTime.parse(timestamp));
+    return formattedTime;
+  }
+
+  // alert box for confirmation of deleting appointment
+  showAlertDialog(BuildContext context, String doctorId, String patientId) {
+    // No
+    Widget cancelButton = TextButton(
+      child: const Text("No"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // YES
+    Widget continueButton = TextButton(
+      child: const Text("Yes"),
+      onPressed: () {
+        deleteAppointment(_documentID, doctorId, patientId);
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Confirm Delete"),
+      content: const Text("Are you sure you want to delete this Appointment?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
-}
 
-//sedule widget
-class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({super.key});
+  // helping in removing pending appointment
+  _checkDiff(DateTime date) {
+    var diff = DateTime.now().difference(date).inHours;
+
+    if (diff > 23) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // for comparing date
+  _compareDate(String date) {
+    if (_dateFormatter(DateTime.now().toString())
+            .compareTo(_dateFormatter(date)) ==
+        0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const <Widget>[
-          Icon(
-            Icons.calendar_today,
-            color: Colors.white,
-            size: 15,
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            "Monday, 10/01/2023",
-            style: TextStyle(color: Colors.white),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.access_alarm,
-            color: Colors.white,
-            size: 17,
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Flexible(
-              child: Text(
-            "2:00 PM",
-            style: TextStyle(color: Colors.white),
-          ))
-        ],
+    return SafeArea(
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('appointments')
+            .doc(user.uid)
+            .collection('pending')
+            .orderBy('date')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.greenAccent,
+              ),
+            );
+          }
+          return snapshot.data!.size == 0
+              ? Container(
+                  child: Text(
+                    'No Appointment Scheduled',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 18,
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = snapshot.data!.docs[index];
+
+                    // delete past appointments from pending appointment list
+                    if (_checkDiff(document['date'].toDate())) {
+                      deleteAppointment(document.id, document['doctorId'],
+                          document['patientId']);
+                    }
+
+                    // each appointment
+                    if (_compareDate(document['date'].toDate().toString())) {
+                      return Card(
+                        color: Colors.greenAccent,
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      isDoctor
+                                          ? document['patientName']
+                                          : document['doctorName'],
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    isDoctor
+                                        ? ''
+                                        : "Patient name: ${document['patientName']}",
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    'Time: ${_timeFormatter(document['date'].toDate().toString())}',
+                                    style: const TextStyle(fontSize: 17),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    'Description : ${document['description']}',
+                                    style: const TextStyle(fontSize: 17),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 14,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        _documentID = document.id;
+                                        showAlertDialog(
+                                            context,
+                                            document['doctorId'],
+                                            document['patientId']);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Card(
+                        elevation: 2,
+                        child: SizedBox(
+                          height: 80,
+                          child: Center(
+                            child: Text(
+                              'No Appointment Scheduled Today',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                );
+        },
       ),
     );
   }

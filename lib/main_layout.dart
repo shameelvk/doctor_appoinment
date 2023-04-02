@@ -1,10 +1,10 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:DocTime/Screens/appointments.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:DocTime/Screens/appoinment_page.dart';
 import 'package:DocTime/Screens/home_page.dart';
 import 'package:DocTime/Screens/patient/doctor_list.dart';
+
+import 'Screens/patient/patent_profile.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -29,7 +29,8 @@ class _MainLayoutState extends State<MainLayout> {
         children: const [
           HomePage(),
           DoctorList(),
-          AppoinmentPage(),
+          Appointments(),
+          ProfileHome(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -38,7 +39,7 @@ class _MainLayoutState extends State<MainLayout> {
             setState(() {
               currentPage = page;
               _page.animateToPage(page,
-                  duration: Duration(microseconds: 500),
+                  duration: const Duration(microseconds: 500),
                   curve: Curves.easeInOut);
             });
           }),
@@ -51,6 +52,8 @@ class _MainLayoutState extends State<MainLayout> {
             BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.solidCalendarCheck),
                 label: "Appoinment"),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.user), label: "Profile"),
           ]),
     );
   }

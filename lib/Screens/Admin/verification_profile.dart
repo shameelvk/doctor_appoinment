@@ -1,34 +1,29 @@
 import 'dart:math';
 
-import 'package:DocTime/components/button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../components/updateprofile.dart';
-import '../utils/globals.dart';
+import '../../components/button.dart';
 
-class UserDetails extends StatefulWidget {
-  const UserDetails({Key? key}) : super(key: key);
-
+class VerificationProfile extends StatefulWidget {
+  String? doctorid = "P";
+  VerificationProfile({Key? key, this.doctorid}) : super(key: key);
   @override
-  State<UserDetails> createState() => _UserDetailsState();
+  State<VerificationProfile> createState() => _VerificationProfileState();
 }
 
-class _UserDetailsState extends State<UserDetails> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
+class _VerificationProfileState extends State<VerificationProfile> {
   String image =
       'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png';
   // map of all the details
   Map<String, dynamic> details = {};
 
   Future<void> _getUser() async {
-    user = _auth.currentUser!;
-
     DocumentSnapshot snap = await FirebaseFirestore.instance
-        .collection(isDoctor ? 'doctor' : 'patient')
-        .doc(user.uid)
+        .collection('pending_doctor')
+        .doc(widget.doctorid)
         .get();
 
     setState(() {
@@ -52,9 +47,10 @@ class _UserDetailsState extends State<UserDetails> {
             padding: const EdgeInsets.only(bottom: 12),
             child: SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Your Profile ",
+                  Text(
+                    details["name"] ?? "Profile",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -99,7 +95,6 @@ class _UserDetailsState extends State<UserDetails> {
                           key == "type" ||
                           key == "email" ||
                           key == "rating" ||
-                          key == "RegisterId" ||
                           key == "email") {
                         return Container();
                       } else {
@@ -110,20 +105,20 @@ class _UserDetailsState extends State<UserDetails> {
                             splashColor: Colors.grey.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(10),
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UpdateUserDetails(
-                                    label: label,
-                                    field: key,
-                                    value: value,
-                                  ),
-                                ),
-                              ).then((value) {
-                                // reload page
-                                _getUser();
-                                setState(() {});
-                              });
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => UpdateUserDetails(
+                              //       label: label,
+                              //       field: key,
+                              //       value: value,
+                              //     ),
+                              //   ),
+                              // ).then((value) {
+                              //   // reload page
+                              //   _getUser();
+                              //   setState(() {});
+                              // });
                             },
                             child: Ink(
                               decoration: BoxDecoration(
@@ -165,13 +160,30 @@ class _UserDetailsState extends State<UserDetails> {
                     },
                   ),
                   // Spacer(),
-                  Button(
-                      width: double.infinity,
-                      title: "Save",
-                      disable: false,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      })
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Button(
+                          width: 100,
+                          title: "Approve",
+                          disable: false,
+                          onPressed: () {
+                            _approveaccount();
+                            _deletepending();
+                          }),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Button(
+                          width: 100,
+                          title: "Reject",
+                          disable: false,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -179,5 +191,45 @@ class _UserDetailsState extends State<UserDetails> {
         ),
       ),
     );
+  }
+
+  _approveaccount() {
+    String name = details["name"];
+    String accountType = 'doctor';
+    FirebaseFirestore.instance.collection('users').doc(widget.doctorid).set({
+      'name': name,
+      'type': accountType,
+      'email': details["email"],
+    }, SetOptions(merge: true));
+    Map<String, dynamic> mp = {
+      'RegisterId': details["RegisterId"],
+      'id': widget.doctorid,
+      'type': accountType,
+      'name': name,
+      'birthDate': null,
+      'experince': null,
+      'email': details["email"],
+      'phone': null,
+      'bio': null,
+      'Hospital': null,
+      'profilePhoto': null,
+      'openHour': "09:00",
+      'closeHour': "21:00",
+      'rating': double.parse(
+          (3 + Random().nextDouble() * 1.9).toStringAsPrecision(2)),
+      'specification': null,
+      'specialization': 'general',
+    };
+    FirebaseFirestore.instance
+        .collection(accountType)
+        .doc(widget.doctorid)
+        .set(mp);
+  }
+
+  Future<void> _deletepending() async {
+    FirebaseFirestore.instance
+        .collection('pending_doctor')
+        .doc(widget.doctorid)
+        .delete();
   }
 }

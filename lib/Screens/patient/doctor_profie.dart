@@ -100,7 +100,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
 
                           // doctor specialization
                           Text(
-                            document['specialization'],
+                            document['specialization'] ?? "",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -151,7 +151,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                   width:
                                       MediaQuery.of(context).size.width / 1.4,
                                   child: Text(
-                                    document['address'] ?? '-',
+                                    document['Hospital'] ?? '-',
                                     style: TextStyle(
                                       fontSize: 16,
                                     ),
@@ -242,7 +242,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                       height: 18,
                                     ),
                                     Text(
-                                      document['bio'],
+                                      document['bio'] ?? "",
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         height: 1.5,

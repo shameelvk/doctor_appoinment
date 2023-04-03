@@ -138,11 +138,13 @@ class _AppointmentCardState extends State<AppointmentCard> {
           }
           return snapshot.data!.size == 0
               ? Container(
-                  child: Text(
-                    'No Appointment Scheduled',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 18,
+                  child: Center(
+                    child: Text(
+                      'No Appointment Scheduled',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 )
@@ -152,7 +154,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                   itemCount: 1,
                   itemBuilder: (context, index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
-
+                    print(_compareDate(document['date'].toDate().toString()));
                     // delete past appointments from pending appointment list
                     if (_checkDiff(document['date'].toDate())) {
                       deleteAppointment(document.id, document['doctorId'],

@@ -297,7 +297,10 @@ class _ProfileHomeState extends State<ProfileHome> {
       setState(() {
         image = Uri.decodeFull(downloadUrl.toString());
       });
-      FirebaseFirestore.instance.collection('patient').doc(user.uid).set({
+      FirebaseFirestore.instance
+          .collection(isDoctor ? 'doctor' : 'patient')
+          .doc(user.uid)
+          .set({
         'profilePhoto': downloadUrl,
       }, SetOptions(merge: true));
 

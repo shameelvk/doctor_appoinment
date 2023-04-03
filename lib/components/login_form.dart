@@ -179,15 +179,9 @@ class _LoginFormState extends State<LoginForm> {
           .doc(user.uid)
           .get();
       var basicInfo = snap.data() as Map<String, dynamic>;
-
+      isAdmin = basicInfo['type'] == 'admin' ? true : false;
+      isvari = basicInfo['type'] == 'pending_doctor' ? true : false;
       isDoctor = basicInfo['type'] == 'doctor' ? true : false;
-
-      // // save data to local storage
-      // SharedPreferenceHelper().saveUserId(user.uid);
-      // // SharedPreferenceHelper().saveProfileUrl(user);
-      // SharedPreferenceHelper().saveUserName(basicInfo['name']);
-      // SharedPreferenceHelper()
-      //     .saveAccountType(basicInfo['type'] == 'doctor' ? true : false);
 
       Navigator.of(context)
           .pushNamedAndRemoveUntil('main', (Route<dynamic> route) => false);

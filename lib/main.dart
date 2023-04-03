@@ -1,3 +1,5 @@
+import 'package:DocTime/Screens/Admin/doctor_verification.dart';
+import 'package:DocTime/Screens/Admin/homepage_admin.dart';
 import 'package:DocTime/Screens/doctor/mainlayot_doc.dart';
 import 'package:DocTime/Screens/doctor_or_patient.dart';
 import 'package:DocTime/Screens/home_page.dart';
@@ -81,8 +83,13 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (context) =>
             user == null ? const AuthPage() : const DoctorOrPatient(),
-        'main': (context) =>
-            isDoctor ? const MainPageDoctor() : const MainLayout(),
+        'main': (context) => isAdmin
+            ? const HomeAdmin()
+            : isvari
+                ? const DoctorVerificationScreen()
+                : isDoctor
+                    ? const MainPageDoctor()
+                    : const MainLayout(),
         'doc_details': (context) => DoctorDetails(),
         'booking_page': (context) => const BookingPage(),
         'success_boking': (context) => const AppoinmentBooked(),

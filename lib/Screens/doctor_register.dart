@@ -368,7 +368,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
       await user.updateDisplayName(_docName.text);
 
       String name = 'Dr. ${_docName.text}';
-      String accountType = 'doctor';
+      String accountType = 'pending_doctor';
       FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'name': name,
         'type': accountType,
@@ -377,6 +377,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
 
       // set data according to type doctor
       Map<String, dynamic> mp = {
+        'RegisterId': _docIdController.text,
         'id': user.uid,
         'type': accountType,
         'name': name,
@@ -392,19 +393,19 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
         'rating': double.parse(
             (3 + Random().nextDouble() * 1.9).toStringAsPrecision(2)),
         'specification': null,
-        'specialization': 'dental',
+        'specialization': 'general',
       };
 
       if (true) {
-        mp.addAll({
-          'openHour': "09:00",
-          'closeHour': "21:00",
-          'rating': double.parse(
-              (3 + Random().nextDouble() * 1.9).toStringAsPrecision(2)),
-          'specification': null,
-          'specialization': 'general',
-        });
-        globals.isDoctor = true;
+        // mp.addAll({
+        //   'openHour': "09:00",
+        //   'closeHour': "21:00",
+        //   'rating': double.parse(
+        //       (3 + Random().nextDouble() * 1.9).toStringAsPrecision(2)),
+        //   'specification': null,
+        //   'specialization': 'general',
+        // });
+        globals.isvari = true;
       }
 
       // sep
